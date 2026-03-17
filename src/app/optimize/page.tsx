@@ -138,69 +138,68 @@ export default function OptimizePage() {
       <main className="max-w-5xl mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">简历优化</h1>
-          <p className="text-gray-600">AI智能润色，提升简历质量</p>
+          <h1 className="text-3xl font-bold text-neutral-900 mb-2">简历优化</h1>
+          <p className="text-neutral-600">AI智能润色，提升简历质量</p>
         </div>
 
         {/* Quick Actions */}
-        <div className="flex flex-wrap gap-3 mb-6 justify-center">
-          <button onClick={() => { setResume(SAMPLE_RESUME); setJobDescription(SAMPLE_JD); }} className="px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100">加载示例</button>
-          <button onClick={() => setShowTemplates(true)} className="px-4 py-2 text-sm font-medium text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100">选择模板</button>
-          <button onClick={() => setShowHistory(true)} className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">历史记录</button>
-          <button onClick={() => { setResume(""); setJobDescription(""); setOptimizedResume(""); }} className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">清空</button>
+        <div className="flex flex-wrap gap-2 mb-6 justify-center">
+          <button onClick={() => { setResume(SAMPLE_RESUME); setJobDescription(SAMPLE_JD); }} className="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded">加载示例</button>
+          <button onClick={() => setShowTemplates(true)} className="px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-100 rounded">选择模板</button>
+          <button onClick={() => setShowHistory(true)} className="px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-100 rounded">历史记录</button>
+          <button onClick={() => { setResume(""); setJobDescription(""); setOptimizedResume(""); }} className="px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-100 rounded">清空</button>
         </div>
 
         {/* Input */}
         <div className="grid lg:grid-cols-2 gap-6 mb-6">
-          <div className="glass-card p-5">
-            <label className="block text-sm font-semibold text-gray-700 mb-3">你的简历 <span className="text-red-500">*</span></label>
-            <textarea value={resume} onChange={e => setResume(e.target.value)} placeholder="粘贴你的简历内容..." className="modern-input h-72 resize-none" />
-            <p className="text-xs text-gray-400 mt-2">{resume.length} 字符</p>
+          <div className="card p-5">
+            <label className="block text-sm font-medium text-neutral-700 mb-2">你的简历 <span className="text-red-500">*</span></label>
+            <textarea value={resume} onChange={e => setResume(e.target.value)} placeholder="粘贴你的简历内容..." className="input h-72 resize-none text-sm" />
+            <p className="text-xs text-neutral-400 mt-2">{resume.length} 字符</p>
           </div>
 
-          <div className="glass-card p-5">
-            <label className="block text-sm font-semibold text-gray-700 mb-3">目标职位 <span className="text-gray-400 font-normal">(可选)</span></label>
-            <textarea value={jobDescription} onChange={e => setJobDescription(e.target.value)} placeholder="粘贴职位JD，AI会针对性优化..." className="modern-input h-72 resize-none" />
-            <p className="text-xs text-gray-400 mt-2">{jobDescription.length} 字符</p>
+          <div className="card p-5">
+            <label className="block text-sm font-medium text-neutral-700 mb-2">目标职位 <span className="text-neutral-400">(可选)</span></label>
+            <textarea value={jobDescription} onChange={e => setJobDescription(e.target.value)} placeholder="粘贴职位JD，AI会针对性优化..." className="input h-72 resize-none text-sm" />
+            <p className="text-xs text-neutral-400 mt-2">{jobDescription.length} 字符</p>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap justify-center gap-4 mb-6">
-          <button onClick={handleOptimize} disabled={loading || !resume.trim()} className="btn-primary flex items-center gap-2">
-            {loading ? <span className="animate-spin w-5 h-5 border-2 border-white/30 border-t-white rounded-full"></span> : <span>✨</span>}
+        <div className="flex flex-wrap justify-center gap-3 mb-6">
+          <button onClick={handleOptimize} disabled={loading || !resume.trim()} className="btn btn-primary">
             {loading ? "AI生成中..." : "开始优化"}
           </button>
-          <button onClick={handleGenerateVersions} disabled={loading || !resume.trim()} className="btn-secondary flex items-center gap-2">
-            <span>📋</span> 生成多版本
+          <button onClick={handleGenerateVersions} disabled={loading || !resume.trim()} className="btn btn-outline">
+            生成多版本
           </button>
         </div>
 
         {/* Usage Info */}
         {!user.isMember && (
-          <p className="text-center text-sm text-gray-500 mb-6">
+          <p className="text-center text-sm text-neutral-500 mb-6">
             今日剩余: {FREE_LIMITS.dailyOptimize - (user.dailyOptimizeCount || 0)} 次
-            <button onClick={() => setShowMember(true)} className="text-indigo-600 ml-2 hover:underline">开通会员无限次</button>
+            <button onClick={() => setShowMember(true)} className="text-blue-600 ml-2 hover:underline">开通会员无限次</button>
           </p>
         )}
 
         {/* Error */}
-        {error && <div className="max-w-xl mx-auto mb-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-700 text-center text-sm">{error}</div>}
+        {error && <div className="max-w-xl mx-auto mb-6 p-4 bg-red-50 text-red-700 text-center text-sm rounded-lg">{error}</div>}
 
         {/* Result */}
         {optimizedResume && (
-          <div className="glass-card p-6 animate-fade-in-up">
+          <div className="card p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-gray-900">优化结果</h3>
+              <h3 className="font-semibold text-neutral-900">优化结果</h3>
               <div className="flex gap-2">
                 <button onClick={async () => { await copyToClipboard(optimizedResume); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-                  className={`px-3 py-1.5 text-sm rounded-lg flex items-center gap-1 ${copied ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}`}>
-                  {copied ? "✓ 已复制" : "复制"}
+                  className={`px-3 py-1.5 text-sm rounded ${copied ? "bg-green-100 text-green-700" : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"}`}>
+                  {copied ? "已复制" : "复制"}
                 </button>
-                <button onClick={() => setShowExport(true)} className="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">导出</button>
+                <button onClick={() => setShowExport(true)} className="px-3 py-1.5 text-sm bg-neutral-100 text-neutral-700 rounded hover:bg-neutral-200">导出</button>
               </div>
             </div>
-            <div className="markdown-content p-4 bg-gray-50 rounded-xl max-h-96 overflow-auto">
+            <div className="markdown p-4 bg-neutral-50 rounded-lg max-h-96 overflow-auto text-sm">
               <ReactMarkdown>{optimizedResume}</ReactMarkdown>
             </div>
           </div>
@@ -208,19 +207,19 @@ export default function OptimizePage() {
 
         {/* Versions */}
         {showVersions && versions.length > 0 && (
-          <div className="glass-card p-6 mt-6 animate-fade-in-up">
+          <div className="card p-6 mt-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-gray-900">多版本选择</h3>
-              <button onClick={() => setShowVersions(false)} className="text-sm text-gray-500">关闭</button>
+              <h3 className="font-semibold text-neutral-900">多版本选择</h3>
+              <button onClick={() => setShowVersions(false)} className="text-sm text-neutral-500 hover:text-neutral-700">关闭</button>
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               {versions.map((v, i) => (
-                <div key={i} className="border border-gray-100 rounded-xl p-4 hover:border-indigo-200">
+                <div key={i} className="border border-neutral-200 rounded-lg p-4 hover:border-blue-300">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium text-gray-700">{["技术导向", "简洁有力", "团队协作"][i]}</span>
-                    <button onClick={() => { setOptimizedResume(v); setShowVersions(false); }} className="text-xs text-indigo-600 font-medium">使用</button>
+                    <span className="text-sm font-medium text-neutral-700">{["技术导向", "简洁有力", "团队协作"][i]}</span>
+                    <button onClick={() => { setOptimizedResume(v); setShowVersions(false); }} className="text-xs text-blue-600 font-medium hover:underline">使用</button>
                   </div>
-                  <p className="text-xs text-gray-500 line-clamp-4">{v.slice(0, 200)}...</p>
+                  <p className="text-xs text-neutral-500 line-clamp-4">{v.slice(0, 200)}...</p>
                 </div>
               ))}
             </div>

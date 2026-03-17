@@ -14,27 +14,27 @@ export default function ExportModal({
   if (!isOpen) return null;
 
   const options = [
-    { name: "PDF", desc: "适合打印投递", color: "bg-red-500", action: () => { exportToPdf(content, "优化简历"); onClose(); } },
-    { name: "Word", desc: "可继续编辑", color: "bg-blue-500", action: () => { exportToWord(content, "优化简历"); onClose(); } },
-    { name: "TXT", desc: "纯文本格式", color: "bg-gray-500", action: () => { exportToTxt(content, "优化简历"); onClose(); } },
+    { name: "PDF", desc: "适合打印投递", action: () => { exportToPdf(content, "优化简历"); onClose(); } },
+    { name: "Word", desc: "可继续编辑", action: () => { exportToWord(content, "优化简历"); onClose(); } },
+    { name: "TXT", desc: "纯文本格式", action: () => { exportToTxt(content, "优化简历"); onClose(); } },
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full animate-fade-in-up" onClick={e => e.stopPropagation()}>
-        <div className="p-6 border-b border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900">导出简历</h2>
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-lg shadow-lg max-w-sm w-full" onClick={e => e.stopPropagation()}>
+        <div className="p-4 border-b border-neutral-200">
+          <h2 className="font-semibold text-neutral-900">导出简历</h2>
         </div>
-        <div className="p-4 space-y-2">
+        <div className="p-3 space-y-2">
           {options.map(opt => (
             <button key={opt.name} onClick={opt.action}
-              className="w-full flex items-center gap-4 p-4 rounded-xl border-2 border-gray-100 hover:border-indigo-200 hover:bg-gray-50 transition-all text-left">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold ${opt.color}`}>
+              className="w-full flex items-center gap-3 p-3 border border-neutral-200 hover:border-blue-300 hover:bg-neutral-50 text-left">
+              <div className="w-10 h-10 bg-neutral-900 flex items-center justify-center text-white text-sm font-medium">
                 {opt.name}
               </div>
               <div>
-                <p className="font-semibold text-gray-900">{opt.name}格式</p>
-                <p className="text-sm text-gray-500">{opt.desc}</p>
+                <p className="font-medium text-neutral-900">{opt.name}格式</p>
+                <p className="text-sm text-neutral-500">{opt.desc}</p>
               </div>
             </button>
           ))}

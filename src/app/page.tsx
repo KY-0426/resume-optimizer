@@ -1,118 +1,89 @@
-import { Navbar, Footer, FeatureCard, CTAButton } from "@/components/Layout";
-
-export const metadata = {
-  title: "AI简历优化助手 - 免费智能简历润色工具",
-  description: "免费AI简历优化工具，智能润色简历语言、优化关键词、匹配职位要求。提高ATS筛选通过率。",
-};
+import Link from "next/link";
 
 export default function HomePage() {
-  const features = [
-    { icon: "✨", title: "AI智能优化", desc: "一键润色简历语言", href: "/optimize" },
-    { icon: "📊", title: "ATS评分", desc: "智能评估简历质量", href: "/score" },
-    { icon: "📋", title: "模板库", desc: "专业简历模板下载", href: "/templates" },
-    { icon: "👑", title: "会员特权", desc: "解锁更多高级功能", href: "/member" },
-  ];
-
-  const advantages = [
-    { title: "100%免费", desc: "核心功能完全免费使用" },
-    { title: "无需注册", desc: "打开即用，保护隐私" },
-    { title: "智能优化", desc: "DeepSeek AI驱动" },
-    { title: "即时生成", desc: "流式输出，秒级响应" },
-  ];
-
   return (
-    <div className="min-h-screen">
-      <Navbar />
-
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 rounded-full shadow-sm border border-gray-100 mb-8">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-          <span className="text-sm text-gray-600">已有 1,234+ 用户使用</span>
-        </div>
-
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-          <span className="gradient-text">AI驱动</span>
-          <br />
-          让简历脱颖而出
+    <main className="max-w-5xl mx-auto px-4 py-16">
+      {/* Hero */}
+      <div className="text-center mb-20">
+        <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+          用AI优化你的简历
         </h1>
-
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
-          智能润色简历语言，优化关键词匹配，提高ATS筛选通过率。
-          <br />
-          无需注册，完全免费。
+        <p className="text-lg text-neutral-600 mb-8 max-w-xl mx-auto">
+          智能润色简历语言，优化关键词匹配，提高ATS筛选通过率
         </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <CTAButton href="/optimize">
-            <span>✨</span> 立即优化简历
-          </CTAButton>
-          <a
-            href="/score"
-            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-indigo-200 text-indigo-600 font-semibold rounded-xl hover:bg-indigo-50 transition-colors"
-          >
-            <span>📊</span> 查看评分
-          </a>
+        <div className="flex gap-3 justify-center">
+          <Link href="/optimize" className="btn btn-primary">
+            开始优化
+          </Link>
+          <Link href="/score" className="btn btn-outline">
+            简历评分
+          </Link>
         </div>
-      </section>
+      </div>
 
-      {/* Features Grid */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold text-center text-gray-900 mb-12">核心功能</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((f, i) => (
-            <FeatureCard key={i} {...f} />
-          ))}
-        </div>
-      </section>
-
-      {/* Advantages */}
-      <section className="bg-gradient-to-r from-indigo-600 to-purple-600 py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-center text-white mb-12">为什么选择我们</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {advantages.map((a, i) => (
-              <div key={i} className="text-center text-white">
-                <h3 className="text-xl font-semibold mb-2">{a.title}</h3>
-                <p className="text-white/80 text-sm">{a.desc}</p>
-              </div>
-            ))}
+      {/* Features */}
+      <div className="grid md:grid-cols-3 gap-6 mb-20">
+        <div className="card p-6">
+          <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
+            <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
           </div>
+          <h3 className="font-semibold text-neutral-900 mb-2">AI智能优化</h3>
+          <p className="text-sm text-neutral-600">一键润色简历，提升专业度</p>
         </div>
-      </section>
+
+        <div className="card p-6">
+          <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center mb-4">
+            <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 className="font-semibold text-neutral-900 mb-2">ATS评分</h3>
+          <p className="text-sm text-neutral-600">智能评估简历质量分数</p>
+        </div>
+
+        <div className="card p-6">
+          <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center mb-4">
+            <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z" />
+            </svg>
+          </div>
+          <h3 className="font-semibold text-neutral-900 mb-2">专业模板</h3>
+          <p className="text-sm text-neutral-600">精选简历模板直接使用</p>
+        </div>
+      </div>
 
       {/* How it works */}
-      <section className="max-w-4xl mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold text-center text-gray-900 mb-12">使用流程</h2>
+      <div className="mb-20">
+        <h2 className="text-2xl font-semibold text-neutral-900 mb-8 text-center">使用方法</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { step: "1", title: "粘贴简历", desc: "将你的简历内容粘贴到输入框" },
-            { step: "2", title: "AI优化", desc: "点击优化按钮，AI智能润色" },
-            { step: "3", title: "下载使用", desc: "复制或导出优化后的简历" },
-          ].map((item, i) => (
-            <div key={i} className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4 shadow-lg shadow-indigo-200">
+            { step: "1", title: "粘贴简历", desc: "将简历内容粘贴到输入框" },
+            { step: "2", title: "AI优化", desc: "点击按钮，AI自动润色" },
+            { step: "3", title: "导出使用", desc: "复制或下载优化结果" },
+          ].map((item) => (
+            <div key={item.step} className="flex items-start gap-4">
+              <div className="w-8 h-8 bg-neutral-900 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
                 {item.step}
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">{item.title}</h3>
-              <p className="text-sm text-gray-500">{item.desc}</p>
+              <div>
+                <h4 className="font-medium text-neutral-900">{item.title}</h4>
+                <p className="text-sm text-neutral-500">{item.desc}</p>
+              </div>
             </div>
           ))}
         </div>
-      </section>
+      </div>
 
       {/* CTA */}
-      <section className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <div className="glass-card p-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">准备好优化你的简历了吗？</h2>
-          <p className="text-gray-600 mb-8">完全免费，无需注册，立即开始</p>
-          <CTAButton href="/optimize">
-            <span>🚀</span> 开始使用
-          </CTAButton>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+      <div className="card p-8 text-center">
+        <h2 className="text-xl font-semibold text-neutral-900 mb-2">准备好优化简历了吗？</h2>
+        <p className="text-neutral-600 mb-6">完全免费，无需注册</p>
+        <Link href="/optimize" className="btn btn-primary">
+          立即开始
+        </Link>
+      </div>
+    </main>
   );
 }

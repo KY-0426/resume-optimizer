@@ -60,37 +60,37 @@ export default function ScorePage() {
 
       <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">ATS简历评分</h1>
-          <p className="text-gray-600">智能评估简历质量，提高通过率</p>
+          <h1 className="text-3xl font-bold text-neutral-900 mb-2">ATS简历评分</h1>
+          <p className="text-neutral-600">智能评估简历质量，提高通过率</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Input */}
           <div className="space-y-4">
-            <div className="glass-card p-5">
-              <label className="block text-sm font-semibold text-gray-700 mb-3">你的简历 <span className="text-red-500">*</span></label>
-              <textarea value={resume} onChange={e => setResume(e.target.value)} placeholder="粘贴简历内容..." className="modern-input h-64 resize-none" />
+            <div className="card p-5">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">你的简历 <span className="text-red-500">*</span></label>
+              <textarea value={resume} onChange={e => setResume(e.target.value)} placeholder="粘贴简历内容..." className="input h-64 resize-none text-sm" />
             </div>
 
-            <div className="glass-card p-5">
-              <label className="block text-sm font-semibold text-gray-700 mb-3">目标职位 <span className="text-gray-400 font-normal">(可选)</span></label>
-              <textarea value={jd} onChange={e => setJd(e.target.value)} placeholder="粘贴职位JD..." className="modern-input h-28 resize-none" />
+            <div className="card p-5">
+              <label className="block text-sm font-medium text-neutral-700 mb-2">目标职位 <span className="text-neutral-400">(可选)</span></label>
+              <textarea value={jd} onChange={e => setJd(e.target.value)} placeholder="粘贴职位JD..." className="input h-28 resize-none text-sm" />
             </div>
 
-            <Link href="/optimize" className="block text-center text-sm text-indigo-600 hover:text-indigo-700">
-              需要优化简历？去简历优化 →
-            </Link>
+            <a href="/optimize" className="block text-center text-sm text-blue-600 hover:underline mt-2">
+              需要优化简历？去简历优化
+            </a>
           </div>
 
           {/* Result */}
           <div>
             {result ? (
-              <div className="glass-card p-6 animate-fade-in">
+              <div className="card p-6">
                 <div className="flex items-center gap-6 mb-6">
                   <ScoreRing score={result.totalScore} />
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">简历质量评分</h3>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <h3 className="text-xl font-bold text-neutral-900">简历质量评分</h3>
+                    <p className="text-sm text-neutral-500 mt-1">
                       {result.totalScore >= 80 ? "优秀！简历质量很高" : result.totalScore >= 60 ? "良好，还有提升空间" : "需要改进"}
                     </p>
                   </div>
@@ -104,13 +104,13 @@ export default function ScorePage() {
                     return (
                       <div key={key}>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm text-gray-700">{icon} {name}</span>
-                          <span className="text-sm font-semibold" style={{ color: percent >= 70 ? "#10b981" : percent >= 40 ? "#f59e0b" : "#ef4444" }}>
+                          <span className="text-sm text-neutral-700">{icon} {name}</span>
+                          <span className="text-sm font-medium" style={{ color: percent >= 70 ? "#16a34a" : percent >= 40 ? "#ea580c" : "#dc2626" }}>
                             {value.score}/{value.max}
                           </span>
                         </div>
-                        <div className="progress-bar">
-                          <div className="progress-bar-fill" style={{ width: `${percent}%` }} />
+                        <div className="progress">
+                          <div className="progress-bar" style={{ width: `${percent}%` }} />
                         </div>
                       </div>
                     );
@@ -119,12 +119,12 @@ export default function ScorePage() {
 
                 {/* Suggestions */}
                 {result.suggestions.length > 0 && (
-                  <div className="border-t border-gray-100 pt-4">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-3">💡 改进建议</h4>
+                  <div className="border-t border-neutral-200 pt-4">
+                    <h4 className="text-sm font-medium text-neutral-700 mb-3">改进建议</h4>
                     <ul className="space-y-2">
                       {result.suggestions.map((s, i) => (
-                        <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
-                          <span className="text-indigo-500">→</span>
+                        <li key={i} className="text-sm text-neutral-600 flex items-start gap-2">
+                          <span className="text-blue-500">-</span>
                           <span>{s}</span>
                         </li>
                       ))}
@@ -133,24 +133,24 @@ export default function ScorePage() {
                 )}
               </div>
             ) : (
-              <div className="glass-card p-12 text-center">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-3xl">📊</span>
+              <div className="card p-12 text-center">
+                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">?</span>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">输入简历开始评分</h3>
-                <p className="text-sm text-gray-500 mb-4">粘贴简历内容，系统将自动进行ATS评分分析</p>
+                <h3 className="font-semibold text-neutral-900 mb-2">输入简历开始评分</h3>
+                <p className="text-sm text-neutral-500">粘贴简历内容，系统将自动进行ATS评分分析</p>
               </div>
             )}
 
             {/* Tips */}
-            <div className="glass-card p-5 mt-4">
-              <h4 className="font-semibold text-gray-900 mb-3">💡 提高评分技巧</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start gap-2"><span className="text-indigo-500">•</span>使用具体数字量化成果</li>
-                <li className="flex items-start gap-2"><span className="text-indigo-500">•</span>添加行业专业关键词</li>
-                <li className="flex items-start gap-2"><span className="text-indigo-500">•</span>用行为动词开头描述</li>
-                <li className="flex items-start gap-2"><span className="text-indigo-500">•</span>确保包含完整模块</li>
-                <li className="flex items-start gap-2"><span className="text-indigo-500">•</span>篇幅控制在300-1500字</li>
+            <div className="card p-5 mt-4">
+              <h4 className="font-medium text-neutral-900 mb-3">提高评分技巧</h4>
+              <ul className="space-y-2 text-sm text-neutral-600">
+                <li className="flex items-start gap-2"><span className="text-blue-500">-</span>使用具体数字量化成果</li>
+                <li className="flex items-start gap-2"><span className="text-blue-500">-</span>添加行业专业关键词</li>
+                <li className="flex items-start gap-2"><span className="text-blue-500">-</span>用行为动词开头描述</li>
+                <li className="flex items-start gap-2"><span className="text-blue-500">-</span>确保包含完整模块</li>
+                <li className="flex items-start gap-2"><span className="text-blue-500">-</span>篇幅控制在300-1500字</li>
               </ul>
             </div>
           </div>

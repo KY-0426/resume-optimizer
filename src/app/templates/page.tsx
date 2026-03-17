@@ -31,18 +31,18 @@ export default function TemplatesPage() {
     <div className="min-h-screen">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">简历模板库</h1>
-          <p className="text-gray-600">专业简历模板，一键套用</p>
+          <h1 className="text-3xl font-bold text-neutral-900 mb-2">简历模板库</h1>
+          <p className="text-neutral-600">专业简历模板，一键套用</p>
         </div>
 
         {/* Category Filter */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {categories.map(c => (
             <button key={c} onClick={() => setCategory(c)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                category === c ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" : "bg-white text-gray-600 border border-gray-200 hover:border-indigo-200"
+              className={`px-4 py-1.5 rounded text-sm ${
+                category === c ? "bg-neutral-900 text-white" : "bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-400"
               }`}>
               {c}
             </button>
@@ -50,37 +50,33 @@ export default function TemplatesPage() {
         </div>
 
         {/* Templates Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(template => {
             const locked = !user.isMember && !FREE_LIMITS.templates.includes(template.id);
             return (
               <div key={template.id}
-                className={`glass-card overflow-hidden ${locked ? "opacity-70" : ""}`}>
-                <div className="p-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{template.name}</h3>
-                      <p className="text-xs text-gray-500">{template.category}</p>
-                    </div>
-                    <span className="text-3xl">{template.preview}</span>
+                className={`card p-5 ${locked ? "opacity-60" : ""}`}>
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 className="font-medium text-neutral-900">{template.name}</h3>
+                    <p className="text-xs text-neutral-500">{template.category}</p>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">{template.description}</p>
-
-                  {locked && (
-                    <div className="mb-3 inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded-full">
-                      👑 会员专属
-                    </div>
-                  )}
-
-                  <div className="flex gap-2">
-                    <button onClick={() => handleSelect(template.id)}
-                      className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        locked ? "bg-gray-100 text-gray-500" : "bg-indigo-600 text-white hover:bg-indigo-700"
-                      }`}>
-                      {locked ? "开通会员" : "查看详情"}
-                    </button>
-                  </div>
+                  <span className="text-2xl">{template.preview}</span>
                 </div>
+                <p className="text-sm text-neutral-600 mb-3">{template.description}</p>
+
+                {locked && (
+                  <div className="mb-3 text-xs text-orange-600">
+                    会员专属
+                  </div>
+                )}
+
+                <button onClick={() => handleSelect(template.id)}
+                  className={`w-full py-2 text-sm font-medium rounded ${
+                    locked ? "bg-neutral-100 text-neutral-500" : "bg-neutral-900 text-white hover:bg-neutral-800"
+                  }`}>
+                  {locked ? "开通会员" : "查看详情"}
+                </button>
               </div>
             );
           })}
@@ -88,26 +84,26 @@ export default function TemplatesPage() {
 
         {/* Template Detail Modal */}
         {selected && (
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setSelectedTemplate(null)}>
-            <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden animate-fade-in-up" onClick={e => e.stopPropagation()}>
-              <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4" onClick={() => setSelectedTemplate(null)}>
+            <div className="bg-white rounded-lg shadow-lg max-w-3xl w-full max-h-[85vh] overflow-hidden" onClick={e => e.stopPropagation()}>
+              <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">{selected.name}</h2>
-                  <p className="text-sm text-gray-500">{selected.category}</p>
+                  <h2 className="text-lg font-bold text-neutral-900">{selected.name}</h2>
+                  <p className="text-sm text-neutral-500">{selected.category}</p>
                 </div>
-                <button onClick={() => setSelectedTemplate(null)} className="p-2 hover:bg-gray-100 rounded-lg">
+                <button onClick={() => setSelectedTemplate(null)} className="p-1 hover:bg-neutral-100 rounded">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
-              <div className="p-6 overflow-y-auto max-h-[60vh]">
-                <pre className="text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed">
+              <div className="p-4 overflow-y-auto max-h-[60vh]">
+                <pre className="text-sm text-neutral-700 whitespace-pre-wrap font-sans leading-relaxed">
                   {selected.content}
                 </pre>
               </div>
-              <div className="p-4 border-t border-gray-100 flex gap-3">
-                <a href="/optimize" className="flex-1 py-3 bg-indigo-600 text-white text-center font-medium rounded-lg hover:bg-indigo-700">
+              <div className="p-4 border-t border-neutral-200">
+                <a href="/optimize" className="block w-full py-2.5 bg-neutral-900 text-white text-center font-medium rounded hover:bg-neutral-800">
                   使用此模板
                 </a>
               </div>
