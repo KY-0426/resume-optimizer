@@ -720,7 +720,7 @@ export default function Home() {
                         <span className="text-sm font-medium">版本 {i + 1}: {["技术导向", "简洁有力", "团队协作"][i]}</span>
                         <button onClick={() => { setOptimizedResume(version); setShowVersions(false); }} className="text-xs text-blue-600">使用此版本</button>
                       </div>
-                      <div className="text-sm text-gray-600 max-h-32 overflow-auto"><ReactMarkdown>{version.slice(0, 500)}...</ReactMarkdown></div>
+                      <div className="text-sm text-gray-600 max-h-32 overflow-auto"><ReactMarkdown>{version.slice(0, 500) + "..."}</ReactMarkdown></div>
                     </div>
                   ))}
                 </div>
