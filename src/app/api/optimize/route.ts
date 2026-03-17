@@ -18,94 +18,75 @@ async function optimizeResume(resume: string, jobDescription?: string): Promise<
 
 // 本地优化（无需API）
 function optimizeLocally(resume: string, jobDescription?: string): string {
-  const lines = resume.split("\n");
-  const optimized: string[] = [];
+  // 优化后的简历内容
+  let optimizedContent = resume;
 
-  let section = "";
-
-  for (let line of lines) {
-    const trimmedLine = line.trim();
-
-    // 跳过空行但保留格式
-    if (!trimmedLine) {
-      optimized.push("");
-      continue;
-    }
-
-    // 识别并标记章节
-    if (/^(个人信息|联系方式|个人简介|工作经历|项目经验|教育背景|技能|证书|自我评价)/i.test(trimmedLine)) {
-      section = trimmedLine;
-      optimized.push(`\n【${trimmedLine}】`);
-      continue;
-    }
-
-    // 优化工作经历描述
-    if (section.includes("工作") || /(\d{4}.*至今|\d{4}.*\d{4})/.test(trimmedLine)) {
-      // 为描述添加行为动词前缀（如果开头不是行为动词）
-      const actionVerbs = ["负责", "主导", "参与", "开发", "设计", "优化", "实现", "完成", "提升", "改进", "推动", "协调", "带领"];
-      const startsWithAction = actionVerbs.some(v => trimmedLine.startsWith(v));
-
-      // 如果是列表项，优化表达
-      if (trimmedLine.startsWith("-") || trimmedLine.startsWith("•") || trimmedLine.startsWith("*")) {
-        const content = trimmedLine.replace(/^[-•*]\s*/, "");
-        optimized.push(`  • ${enhanceDescription(content)}`);
-      } else {
-        optimized.push(line);
-      }
-    } else {
-      optimized.push(line);
-    }
+  // 1. 格式化章节标题
+  const sectionHeaders = ["个人信息", "联系方式", "个人简介", "工作经历", "项目经验", "教育背景", "技能", "证书", "自我评价", "工作经历：", "项目经验：", "教育背景："];
+  for (const header of sectionHeaders) {
+    const regex = new RegExp(`^(\\s*)${header}`, "gm");
+    optimizedContent = optimizedContent.replace(regex, `\n【${header.replace("：", "")}】`);
   }
 
-  // 添加优化建议
-  let suggestions = "\n\n---\n\n💡 优化建议：\n\n";
+  // 2. 优化列表项表达
+  const enhancements: [RegExp, string][] = [
+    [/^(\s*[-•*]\s*)做了/gm, "$1完成"],
+    [/^(\s*[-•*]\s*)写了/gm, "$1开发"],
+    [/^(\s*[-•*]\s*)学了/gm, "$1掌握"],
+    [/^(\s*[-•*]\s*)帮忙/gm, "$1协助"],
+    [/^(\s*[-•*]\s*)改了/gm, "$1优化"],
+    [/^(\s*[-•*]\s*)做了/gm, "$1负责实施"],
+  ];
+
+  for (const [pattern, replacement] of enhancements) {
+    optimizedContent = optimizedContent.replace(pattern, replacement);
+  }
+
+  // 3. 统一列表符号
+  optimizedContent = optimizedContent.replace(/^(\s*)[-*]\s/gm, "$1• ");
+
+  // 生成优化建议
+  const suggestions: string[] = [];
 
   // 检查是否包含量化数据
-  if (!/\d+%|\d+倍|\d+万|\d+个|\d+次/.test(resume)) {
-    suggestions += "• 建议添加量化成果，如：提升转化率20%、节省成本50万/年等\n";
+  if (!/\d+%|\d+倍|\d+万|\d+个|\d+次|\d+元/.test(resume)) {
+    suggestions.push("• 建议添加量化成果，如：提升转化率20%、节省成本50万/年等");
   }
 
   // 检查是否有行为动词
-  const actionVerbsCount = (resume.match(/负责|主导|开发|设计|实现|优化|推动|带领/g) || []).length;
+  const actionVerbsCount = (resume.match(/负责|主导|开发|设计|实现|优化|推动|带领|完成/g) || []).length;
   if (actionVerbsCount < 3) {
-    suggestions += "• 建议使用更多行为动词开头，如：主导、推动、优化、提升等\n";
+    suggestions.push("• 建议使用更多行为动词开头，如：主导、推动、优化、提升、完成等");
   }
 
   // 检查是否太短
-  if (resume.length < 500) {
-    suggestions += "• 简历内容较少，建议补充更多工作细节和成果描述\n";
+  if (resume.length < 300) {
+    suggestions.push("• 简历内容较少，建议补充更多工作细节和成果描述");
   }
 
   // 如果有JD，添加匹配建议
-  if (jobDescription) {
+  if (jobDescription && jobDescription.trim()) {
     const keywords = extractKeywords(jobDescription);
-    const matchedKeywords = keywords.filter(k => resume.includes(k));
+    const matchedKeywords = keywords.filter(k => resume.toLowerCase().includes(k.toLowerCase()));
 
-    suggestions += `• 从职位描述中提取的关键词：${keywords.slice(0, 5).join("、")}\n`;
-    suggestions += `• 已匹配关键词：${matchedKeywords.slice(0, 5).join("、") || "无"}\n`;
+    if (keywords.length > 0) {
+      suggestions.push(`• 职位关键词：${keywords.slice(0, 5).join("、")}`);
+    }
+    if (matchedKeywords.length > 0) {
+      suggestions.push(`• 已匹配关键词：${matchedKeywords.slice(0, 5).join("、")}`);
+    }
 
-    const unmatched = keywords.filter(k => !resume.includes(k)).slice(0, 3);
+    const unmatched = keywords.filter(k => !resume.toLowerCase().includes(k.toLowerCase())).slice(0, 3);
     if (unmatched.length > 0) {
-      suggestions += `• 建议补充关键词：${unmatched.join("、")}\n`;
+      suggestions.push(`• 建议补充关键词：${unmatched.join("、")}`);
     }
   }
 
-  return optimized.join("\n") + suggestions;
-}
+  // 组合结果
+  let result = optimizedContent.trim();
 
-// 增强描述语句
-function enhanceDescription(text: string): string {
-  const enhancements: [RegExp, string][] = [
-    [/做了(.+)/i, "完成$1"],
-    [/写了(.+)/i, "开发$1"],
-    [/学了(.+)/i, "掌握$1"],
-    [/帮忙(.+)/i, "协助$1"],
-    [/改了(.+)/i, "优化$1"],
-  ];
-
-  let result = text;
-  for (const [pattern, replacement] of enhancements) {
-    result = result.replace(pattern, replacement);
+  if (suggestions.length > 0) {
+    result += "\n\n---\n\n💡 优化建议：\n\n" + suggestions.join("\n");
   }
 
   return result;
