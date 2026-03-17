@@ -47,6 +47,160 @@ const SAMPLE_JD = `职位：高级前端工程师
 - 良好的沟通能力和团队协作精神
 - 有技术热情，关注前端技术发展`;
 
+// 广告组件
+function AdBanner({ type = "horizontal" }: { type?: "horizontal" | "vertical" | "square" }) {
+  const sizes = {
+    horizontal: "h-24",
+    vertical: "h-64 w-full max-w-xs",
+    square: "h-64 w-64",
+  };
+
+  return (
+    <div className={`${sizes[type]} bg-gradient-to-r from-gray-100 to-gray-50 rounded-lg border border-gray-200 flex items-center justify-center`}>
+      <div className="text-center">
+        <p className="text-xs text-gray-400">广告位</p>
+        <p className="text-xs text-gray-300 mt-1">联系合作</p>
+      </div>
+    </div>
+  );
+}
+
+// 分享弹窗组件
+function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const shareUrl = "https://resume-optimizer-orcin.vercel.app";
+  const shareText = "发现一个免费的AI简历优化工具，可以智能润色简历、优化关键词，对求职很有帮助！";
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    alert("链接已复制！");
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">分享给朋友</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="grid grid-cols-4 gap-4 mb-4">
+          <a
+            href={`https://service.weibo.com/share/share.php?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareText)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center gap-1 p-3 hover:bg-gray-50 rounded-lg"
+          >
+            <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs font-bold">微博</span>
+            </div>
+            <span className="text-xs text-gray-600">微博</span>
+          </a>
+          <a
+            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center gap-1 p-3 hover:bg-gray-50 rounded-lg"
+          >
+            <div className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs font-bold">X</span>
+            </div>
+            <span className="text-xs text-gray-600">Twitter</span>
+          </a>
+          <button
+            onClick={handleCopyLink}
+            className="flex flex-col items-center gap-1 p-3 hover:bg-gray-50 rounded-lg"
+          >
+            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <span className="text-xs text-gray-600">复制链接</span>
+          </button>
+          <div className="flex flex-col items-center gap-1 p-3">
+            <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs">微信</span>
+            </div>
+            <span className="text-xs text-gray-600">扫码分享</span>
+          </div>
+        </div>
+        <p className="text-center text-xs text-gray-400">分享给正在求职的朋友，帮他们优化简历</p>
+      </div>
+    </div>
+  );
+}
+
+// 高级功能弹窗
+function PremiumModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">高级功能</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="space-y-3 mb-6">
+          <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+              <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">多套简历模板</p>
+              <p className="text-xs text-gray-500">专业设计，一键套用</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+            <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+              <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">AI深度优化</p>
+              <p className="text-xs text-gray-500">更详细的修改建议</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">导出PDF/Word</p>
+              <p className="text-xs text-gray-500">格式美观，直接投递</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center mb-4">
+          <p className="text-3xl font-bold text-gray-900">¥9.9<span className="text-sm font-normal text-gray-500">/月</span></p>
+          <p className="text-xs text-gray-400 mt-1">首批用户限时优惠</p>
+        </div>
+
+        <button className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl hover:shadow-lg transition-shadow">
+          开通会员
+        </button>
+        <p className="text-center text-xs text-gray-400 mt-3">功能开发中，敬请期待</p>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -55,6 +209,8 @@ export default function Home() {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [useCount, setUseCount] = useState(0);
+  const [showShare, setShowShare] = useState(false);
+  const [showPremium, setShowPremium] = useState(false);
 
   const handleOptimize = async () => {
     if (!resume.trim()) {
@@ -83,7 +239,6 @@ export default function Home() {
         throw new Error(data.error || "优化失败，请重试");
       }
 
-      // 流式读取响应
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
 
@@ -133,7 +288,6 @@ export default function Home() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // 降级方案
       const textarea = document.createElement("textarea");
       textarea.value = optimizedResume;
       document.body.appendChild(textarea);
@@ -186,10 +340,21 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowShare(true)}
+              className="text-sm px-3 py-1.5 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              分享
+            </button>
+            <button
+              onClick={() => setShowPremium(true)}
+              className="text-sm px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg hover:shadow transition-shadow"
+            >
+              高级版
+            </button>
             {useCount > 0 && (
-              <span className="text-xs text-gray-500">已优化 {useCount} 次</span>
+              <span className="text-xs text-gray-500 hidden sm:inline">已优化 {useCount} 次</span>
             )}
-            <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">免费使用</span>
           </div>
         </div>
       </header>
@@ -233,24 +398,11 @@ export default function Home() {
             <textarea
               value={resume}
               onChange={(e) => setResume(e.target.value)}
-              placeholder="粘贴你的简历内容...
-
-示例格式：
-
-张三
-电话：138-xxxx-xxxx
-邮箱：zhangsan@email.com
-
-工作经历：
-- 2020-2023 XX公司 前端开发工程师
-  负责公司官网开发和维护..."
-
+              placeholder="粘贴你的简历内容..."
               className="w-full h-80 p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             />
             <div className="flex justify-between items-center mt-2">
-              <p className="text-xs text-gray-400">
-                {resume.length} 字符
-              </p>
+              <p className="text-xs text-gray-400">{resume.length} 字符</p>
               {resume.length > 0 && resume.length < 100 && (
                 <p className="text-xs text-amber-500">简历内容较少</p>
               )}
@@ -260,25 +412,15 @@ export default function Home() {
           {/* Job Description Input */}
           <div className="bg-white rounded-xl shadow-sm border p-5">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              目标职位描述 <span className="text-gray-400 text-xs">(可选，提高匹配度)</span>
+              目标职位描述 <span className="text-gray-400 text-xs">(可选)</span>
             </label>
             <textarea
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
-              placeholder="粘贴目标职位的JD，AI会根据职位要求优化你的简历...
-
-示例：
-职位：高级前端工程师
-要求：
-- 5年以上前端开发经验
-- 熟悉React/Vue框架
-- 有大型项目经验..."
-
+              placeholder="粘贴目标职位的JD..."
               className="w-full h-80 p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             />
-            <p className="text-xs text-gray-400 mt-2">
-              {jobDescription.length} 字符
-            </p>
+            <p className="text-xs text-gray-400 mt-2">{jobDescription.length} 字符</p>
           </div>
         </div>
 
@@ -317,7 +459,7 @@ export default function Home() {
 
         {/* Result Section */}
         {(optimizedResume || loading) && (
-          <div className="bg-white rounded-xl shadow-sm border p-5">
+          <div className="bg-white rounded-xl shadow-sm border p-5 mb-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">优化后的简历</h3>
               {optimizedResume && (
@@ -325,9 +467,7 @@ export default function Home() {
                   <button
                     onClick={handleCopy}
                     className={`flex items-center gap-1 px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                      copied
-                        ? "bg-green-100 text-green-700"
-                        : "text-blue-600 hover:bg-blue-50"
+                      copied ? "bg-green-100 text-green-700" : "text-blue-600 hover:bg-blue-50"
                     }`}
                   >
                     {copied ? (
@@ -364,6 +504,11 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* 广告位 */}
+        <div className="mb-8">
+          <AdBanner type="horizontal" />
+        </div>
 
         {/* Tips Section */}
         <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
@@ -433,6 +578,10 @@ export default function Home() {
         <p>AI简历优化助手 - 帮助每一位求职者找到理想工作</p>
         <p className="mt-1 text-xs text-gray-400">Powered by DeepSeek AI</p>
       </footer>
+
+      {/* Modals */}
+      <ShareModal isOpen={showShare} onClose={() => setShowShare(false)} />
+      <PremiumModal isOpen={showPremium} onClose={() => setShowPremium(false)} />
     </div>
   );
 }
