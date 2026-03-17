@@ -222,7 +222,7 @@ export default function Home() {
                 </button>
               )}
             </div>
-            <div className="p-4 bg-gray-50 rounded-lg text-sm text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-gray-900 prose-headings:font-semibold prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-strong:text-gray-900 prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+            <div className="p-4 bg-gray-50 rounded-lg text-sm text-gray-800 leading-relaxed markdown-content">
               <ReactMarkdown>{optimizedResume}</ReactMarkdown>
               {loading && <span className="inline-block w-2 h-4 bg-blue-500 animate-pulse ml-0.5" />}
             </div>
