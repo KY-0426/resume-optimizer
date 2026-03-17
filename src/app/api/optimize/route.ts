@@ -5,7 +5,7 @@ async function optimizeResume(resume: string, jobDescription?: string): Promise<
   // 如果配置了AI API，使用真正的AI服务
   // 否则使用本地优化的规则
 
-  const apiKey = process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY;
+  const apiKey = process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY || process.env.ANTHROPIC_API_KEY;
 
   if (apiKey) {
     // 使用AI API
@@ -124,7 +124,35 @@ ${jobDescription}`
 【简历内容】
 ${resume}`;
 
-  // 根据可用的API选择
+  // DeepSeek API (优先)
+  if (process.env.DEEPSEEK_API_KEY) {
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
+        ],
+        stream: false,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("DeepSeek API error:", data);
+      throw new Error(data.error?.message || "AI优化失败");
+    }
+
+    return data.choices[0].message.content;
+  }
+
+  // Anthropic API
   if (process.env.ANTHROPIC_API_KEY) {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -142,6 +170,12 @@ ${resume}`;
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Anthropic API error:", data);
+      throw new Error(data.error?.message || "AI优化失败");
+    }
+
     return data.content[0].text;
   }
 
@@ -162,6 +196,12 @@ ${resume}`;
   });
 
   const data = await response.json();
+
+  if (!response.ok) {
+    console.error("OpenAI API error:", data);
+    throw new Error(data.error?.message || "AI优化失败");
+  }
+
   return data.choices[0].message.content;
 }
 
