@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI简历优化助手
 
-## Getting Started
+使用AI技术优化你的简历，提高面试通过率。
 
-First, run the development server:
+## 功能特点
+
+- 智能润色简历语言
+- 关键词优化
+- 支持职位JD匹配
+- 100%免费使用
+
+## 本地开发
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 http://localhost:3000 查看
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 部署到Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. 将代码推送到GitHub
+2. 在Vercel导入项目
+3. 自动部署
 
-## Learn More
+## 环境变量（可选）
 
-To learn more about Next.js, take a look at the following resources:
+- `ANTHROPIC_API_KEY` - 使用Claude API增强优化效果
+- `OPENAI_API_KEY` - 使用OpenAI API增强优化效果
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+不配置API Key也可以使用，会使用本地优化规则。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 技术栈
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js 16
+- Tailwind CSS
+- TypeScript
