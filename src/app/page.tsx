@@ -206,16 +206,12 @@ function DonateModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="text-center">
-            <div className="w-32 h-32 mx-auto bg-gray-100 rounded-lg flex items-center justify-center mb-2">
-              <span className="text-xs text-gray-400">微信收款码</span>
-            </div>
-            <p className="text-xs text-gray-500">微信扫码</p>
+            <img src="/weixin.png" alt="微信收款码" className="w-32 h-32 mx-auto rounded-lg" />
+            <p className="text-xs text-gray-500 mt-2">微信扫码</p>
           </div>
           <div className="text-center">
-            <div className="w-32 h-32 mx-auto bg-gray-100 rounded-lg flex items-center justify-center mb-2">
-              <span className="text-xs text-gray-400">支付宝收款码</span>
-            </div>
-            <p className="text-xs text-gray-500">支付宝扫码</p>
+            <img src="/zfb.jpg" alt="支付宝收款码" className="w-32 h-32 mx-auto rounded-lg" />
+            <p className="text-xs text-gray-500 mt-2">支付宝扫码</p>
           </div>
         </div>
 
