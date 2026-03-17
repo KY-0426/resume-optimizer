@@ -60,14 +60,14 @@ export default function RootLayout({
     <html lang="zh-CN">
       <head>
         <meta name="theme-color" content="#3b82f6" />
+        <meta name="google-adsense-account" content="ca-pub-7808063546241923" />
         <link rel="icon" href="/favicon.ico" />
-        {/* Google AdSense - 申请到ID后取消注释并填入 */}
-        {/* <Script
+        <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7808063546241923"
           crossOrigin="anonymous"
           strategy="afterInteractive"
-        /> */}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
