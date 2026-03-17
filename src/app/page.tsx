@@ -184,6 +184,49 @@ function PremiumModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
   );
 }
 
+// 打赏弹窗组件
+function DonateModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl p-6 max-w-sm w-full" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">支持开发者</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <p className="text-sm text-gray-600 text-center mb-4">
+          如果这个工具对你有帮助，欢迎打赏支持，让项目持续运营 ☕
+        </p>
+
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="text-center">
+            <div className="w-32 h-32 mx-auto bg-gray-100 rounded-lg flex items-center justify-center mb-2">
+              <span className="text-xs text-gray-400">微信收款码</span>
+            </div>
+            <p className="text-xs text-gray-500">微信扫码</p>
+          </div>
+          <div className="text-center">
+            <div className="w-32 h-32 mx-auto bg-gray-100 rounded-lg flex items-center justify-center mb-2">
+              <span className="text-xs text-gray-400">支付宝收款码</span>
+            </div>
+            <p className="text-xs text-gray-500">支付宝扫码</p>
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400 text-center">
+          感谢你的支持！❤️
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -194,6 +237,7 @@ export default function Home() {
   const [useCount, setUseCount] = useState(0);
   const [showShare, setShowShare] = useState(false);
   const [showPremium, setShowPremium] = useState(false);
+  const [showDonate, setShowDonate] = useState(false);
 
   const handleOptimize = async () => {
     if (!resume.trim()) {
@@ -554,6 +598,83 @@ export default function Home() {
             <p className="text-sm text-gray-600">无需注册，直接使用，保护你的隐私</p>
           </div>
         </div>
+
+        {/* 推荐资源区 - 变现 */}
+        <div className="mt-12 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-100">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">求职必备资源</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a
+              href="https://www.lagou.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:shadow-md transition-shadow"
+            >
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <span className="text-green-600 font-bold text-sm">拉勾</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-900">拉勾网</p>
+                <p className="text-xs text-gray-500">互联网求职</p>
+              </div>
+            </a>
+            <a
+              href="https://www.zhipin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:shadow-md transition-shadow"
+            >
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <span className="text-green-600 font-bold text-sm">Boss</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-900">BOSS直聘</p>
+                <p className="text-xs text-gray-500">直接沟通HR</p>
+              </div>
+            </a>
+            <a
+              href="https://www.500d.me/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:shadow-md transition-shadow"
+            >
+              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <span className="text-blue-600 font-bold text-sm">简历</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-900">五百丁简历</p>
+                <p className="text-xs text-gray-500">专业简历模板</p>
+              </div>
+            </a>
+            <a
+              href="https://www.qcc.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-4 bg-white rounded-lg hover:shadow-md transition-shadow"
+            >
+              <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                <span className="text-amber-600 font-bold text-sm">企查</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-900">企查查</p>
+                <p className="text-xs text-gray-500">了解公司背景</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {/* 打赏支持 */}
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500 mb-3">觉得有用？请我喝杯咖啡 ☕</p>
+          <button
+            onClick={() => setShowDonate(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition-colors text-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            打赏支持
+          </button>
+        </div>
       </main>
 
       {/* Footer */}
@@ -565,6 +686,7 @@ export default function Home() {
       {/* Modals */}
       <ShareModal isOpen={showShare} onClose={() => setShowShare(false)} />
       <PremiumModal isOpen={showPremium} onClose={() => setShowPremium(false)} />
+      <DonateModal isOpen={showDonate} onClose={() => setShowDonate(false)} />
     </div>
   );
 }
