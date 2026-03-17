@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import AdBanner from "@/components/AdBanner";
 
 // 示例简历模板
 const SAMPLE_RESUME = `张三
@@ -46,24 +47,6 @@ const SAMPLE_JD = `职位：高级前端工程师
 - 熟悉前端工程化，了解性能优化
 - 良好的沟通能力和团队协作精神
 - 有技术热情，关注前端技术发展`;
-
-// 广告组件
-function AdBanner({ type = "horizontal" }: { type?: "horizontal" | "vertical" | "square" }) {
-  const sizes = {
-    horizontal: "h-24",
-    vertical: "h-64 w-full max-w-xs",
-    square: "h-64 w-64",
-  };
-
-  return (
-    <div className={`${sizes[type]} bg-gradient-to-r from-gray-100 to-gray-50 rounded-lg border border-gray-200 flex items-center justify-center`}>
-      <div className="text-center">
-        <p className="text-xs text-gray-400">广告位</p>
-        <p className="text-xs text-gray-300 mt-1">联系合作</p>
-      </div>
-    </div>
-  );
-}
 
 // 分享弹窗组件
 function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
