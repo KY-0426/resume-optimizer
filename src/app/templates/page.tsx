@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar, Footer } from "@/components/Layout";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { resumeTemplates } from "@/lib/resume-templates";
-import { User, getUser } from "@/lib/user";
+import { User, getUser, FREE_LIMITS } from "@/lib/user";
 import { MemberModal } from "@/components/MemberComponents";
-import { FREE_LIMITS } from "@/lib/user";
 
 export default function TemplatesPage() {
   const [user] = useState<User>(() => getUser());
@@ -28,92 +31,84 @@ export default function TemplatesPage() {
   const selected = selectedTemplate ? resumeTemplates.find(t => t.id === selectedTemplate) : null;
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <main className="container mx-auto px-4 py-6 md:py-8">
+      <div className="text-center mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2">简历模板库</h1>
+        <p className="text-sm md:text-base text-muted-foreground">专业简历模板，一键套用</p>
+      </div>
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-neutral-900 mb-2">简历模板库</h1>
-          <p className="text-neutral-600">专业简历模板，一键套用</p>
-        </div>
+      {/* Category Filter */}
+      <div className="flex flex-wrap justify-center gap-2 mb-6 md:mb-8">
+        {categories.map(c => (
+          <Button
+            key={c}
+            variant={category === c ? "default" : "outline"}
+            size="sm"
+            onClick={() => setCategory(c)}
+          >
+            {c}
+          </Button>
+        ))}
+      </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {categories.map(c => (
-            <button key={c} onClick={() => setCategory(c)}
-              className={`px-4 py-1.5 rounded text-sm ${
-                category === c ? "bg-neutral-900 text-white" : "bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-400"
-              }`}>
-              {c}
-            </button>
-          ))}
-        </div>
-
-        {/* Templates Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map(template => {
-            const locked = !user.isMember && !FREE_LIMITS.templates.includes(template.id);
-            return (
-              <div key={template.id}
-                className={`card p-5 ${locked ? "opacity-60" : ""}`}>
-                <div className="flex items-start justify-between mb-2">
+      {/* Templates Grid */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filtered.map(template => {
+          const locked = !user.isMember && !FREE_LIMITS.templates.includes(template.id);
+          return (
+            <Card
+              key={template.id}
+              className={`cursor-pointer transition-colors hover:border-primary ${locked ? "opacity-70" : ""}`}
+            >
+              <CardHeader className="pb-2">
+                <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-medium text-neutral-900">{template.name}</h3>
-                    <p className="text-xs text-neutral-500">{template.category}</p>
+                    <CardTitle className="text-base">{template.name}</CardTitle>
+                    <p className="text-sm text-muted-foreground">{template.category}</p>
                   </div>
                   <span className="text-2xl">{template.preview}</span>
                 </div>
-                <p className="text-sm text-neutral-600 mb-3">{template.description}</p>
-
-                {locked && (
-                  <div className="mb-3 text-xs text-orange-600">
-                    会员专属
-                  </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-3">{template.description}</p>
+                {locked ? (
+                  <Badge variant="secondary">会员专属</Badge>
+                ) : (
+                  <Button size="sm" className="w-full" onClick={() => handleSelect(template.id)}>
+                    查看详情
+                  </Button>
                 )}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
 
-                <button onClick={() => handleSelect(template.id)}
-                  className={`w-full py-2 text-sm font-medium rounded ${
-                    locked ? "bg-neutral-100 text-neutral-500" : "bg-neutral-900 text-white hover:bg-neutral-800"
-                  }`}>
-                  {locked ? "开通会员" : "查看详情"}
-                </button>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Template Detail Modal */}
-        {selected && (
-          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4" onClick={() => setSelectedTemplate(null)}>
-            <div className="bg-white rounded-lg shadow-lg max-w-3xl w-full max-h-[85vh] overflow-hidden" onClick={e => e.stopPropagation()}>
-              <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
-                <div>
-                  <h2 className="text-lg font-bold text-neutral-900">{selected.name}</h2>
-                  <p className="text-sm text-neutral-500">{selected.category}</p>
-                </div>
-                <button onClick={() => setSelectedTemplate(null)} className="p-1 hover:bg-neutral-100 rounded">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-4 overflow-y-auto max-h-[60vh]">
-                <pre className="text-sm text-neutral-700 whitespace-pre-wrap font-sans leading-relaxed">
+      {/* Template Detail Dialog */}
+      <Dialog open={!!selected} onOpenChange={() => setSelectedTemplate(null)}>
+        <DialogContent className="max-w-3xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden w-[95vw] sm:w-full">
+          {selected && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selected.name}</DialogTitle>
+                <p className="text-sm text-muted-foreground">{selected.category}</p>
+              </DialogHeader>
+              <div className="overflow-y-auto max-h-[60vh]">
+                <pre className="text-sm whitespace-pre-wrap leading-relaxed font-sans">
                   {selected.content}
                 </pre>
               </div>
-              <div className="p-4 border-t border-neutral-200">
-                <a href="/optimize" className="block w-full py-2.5 bg-neutral-900 text-white text-center font-medium rounded hover:bg-neutral-800">
+              <div className="flex justify-end pt-4 border-t">
+                <Button render={<Link href="/optimize" />}>
                   使用此模板
-                </a>
+                </Button>
               </div>
-            </div>
-          </div>
-        )}
-      </main>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
-      <Footer />
       <MemberModal isOpen={showMember} onClose={() => setShowMember(false)} user={user} onUserUpdate={() => {}} />
-    </div>
+    </main>
   );
 }
