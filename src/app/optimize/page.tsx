@@ -15,6 +15,7 @@ import { addToHistory } from "@/lib/history";
 import { resumeTemplates, ResumeTemplate } from "@/lib/resume-templates";
 import { getHistory, deleteFromHistory, clearHistory, formatDate, HistoryItem } from "@/lib/history";
 import { MemberModal } from "@/components/MemberComponents";
+import AdBanner from "@/components/AdBanner";
 
 const SAMPLE_RESUME = `张三
 电话：138-1234-5678 | 邮箱：zhangsan@email.com
@@ -316,6 +317,11 @@ export default function OptimizePage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Ad Banner */}
+      <div className="max-w-4xl mx-auto mt-8">
+        <AdBanner type="horizontal" />
+      </div>
 
       <MemberModal isOpen={showMember} onClose={() => setShowMember(false)} user={user} onUserUpdate={setUser} />
     </main>

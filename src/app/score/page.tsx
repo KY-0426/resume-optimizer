@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { scoreResume } from "@/lib/resume-scorer";
 import { User, getUser } from "@/lib/user";
+import AdBanner from "@/components/AdBanner";
 
 function ScoreRing({ score }: { score: number }) {
   const size = 140;
@@ -198,6 +199,11 @@ export default function ScorePage() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Ad Banner */}
+      <div className="max-w-4xl mx-auto mt-8">
+        <AdBanner type="horizontal" />
       </div>
     </main>
   );

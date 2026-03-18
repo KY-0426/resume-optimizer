@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import AdBanner from "@/components/AdBanner";
 
 export default function HomePage() {
   const features = [
@@ -105,6 +106,11 @@ export default function HomePage() {
                 <p className="text-muted-foreground">{item.desc}</p>
               </div>
             ))}
+          </div>
+
+          {/* Ad Banner */}
+          <div className="max-w-4xl mx-auto mt-12">
+            <AdBanner type="horizontal" />
           </div>
         </div>
       </section>

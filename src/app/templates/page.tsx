@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { resumeTemplates } from "@/lib/resume-templates";
 import { User, getUser, FREE_LIMITS } from "@/lib/user";
 import { MemberModal } from "@/components/MemberComponents";
+import AdBanner from "@/components/AdBanner";
 
 export default function TemplatesPage() {
   const [user] = useState<User>(() => getUser());
@@ -107,6 +108,11 @@ export default function TemplatesPage() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Ad Banner */}
+      <div className="max-w-4xl mx-auto mt-8">
+        <AdBanner type="horizontal" />
+      </div>
 
       <MemberModal isOpen={showMember} onClose={() => setShowMember(false)} user={user} onUserUpdate={() => {}} />
     </main>
